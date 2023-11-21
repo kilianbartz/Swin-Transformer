@@ -52,7 +52,7 @@ def parse_option():
     parser.add_argument('--tag', help='tag of experiment')
 
     # distributed training
-    parser.add_argument("--local_rank", type=int, required=True, help='local rank for DistributedDataParallel')
+    # parser.add_argument("--local_rank", type=int, required=True, help='local rank for DistributedDataParallel')
 
     args = parser.parse_args()
 
@@ -70,7 +70,7 @@ def main(config):
     logger.info(str(model))
 
     optimizer = build_optimizer(config, model, simmim=True, is_pretrain=True)
-    model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[config.LOCAL_RANK], broadcast_buffers=False)
+    model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[int(os.environ['LOCAL_RANK'])], broadcast_buffers=False)
     model_without_ddp = model.module
 
     n_parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -189,7 +189,7 @@ if __name__ == '__main__':
     else:
         rank = -1
         world_size = -1
-    torch.cuda.set_device(config.LOCAL_RANK)
+    torch.cuda.set_device(int(config.LOCAL_RANK))
     torch.distributed.init_process_group(backend='nccl', init_method='env://', world_size=world_size, rank=rank)
     torch.distributed.barrier()
 

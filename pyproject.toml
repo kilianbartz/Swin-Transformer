@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "swin-transformer"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "swin_transformer"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+torch = "^2.1.1"
+torchvision = "^0.16.1"
+timm = "^0.9.10"
+opencv-python = "^4.8.1.78"
+termcolor = "^2.3.0"
+yacs = "^0.1.8"
+PyYAML = "^6.0.1"
+scipy = "^1.11.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
